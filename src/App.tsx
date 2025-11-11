@@ -1,16 +1,17 @@
-import { BrowserRouter as Router} from 'react-router-dom';
-import { MainLayout } from './layouts/MainLayout';
-import Rotas from './layouts/Rotas';
+// src/App.tsx
+import React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import AppRoutes from "./autenticacao/AppRoute";
+import { AuthProvider } from "./autenticacao/AuthContext";
 
-function App() {
-
+const App: React.FC = () => {
   return (
-    <Router>
-      <MainLayout>
-        <Rotas />
-      </MainLayout>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <AppRoutes />
+      </Router>
+    </AuthProvider>
   );
-}
+};
 
-export default App
+export default App;
