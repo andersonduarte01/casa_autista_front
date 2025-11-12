@@ -1,6 +1,5 @@
-// src/context/AuthContext.tsx
 import React, { createContext, useState, useEffect, useContext } from "react";
-import { getUser, isAuthenticated, logout } from "./auth";
+import { getUser, isAuthenticated, logout as doLogout } from "./auth";
 
 interface User {
   id: number;
@@ -16,7 +15,7 @@ interface AuthContextType {
   logout: () => void;
 }
 
-const AuthContext = createContext<AuthContextType>({
+export const AuthContext = createContext<AuthContextType>({
   user: null,
   setUser: () => {},
   logout: () => {},
@@ -28,6 +27,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     if (!isAuthenticated()) setUser(null);
   }, []);
+
+  const logout = () => {
+    doLogout();
+    setUser(null);
+  };
 
   return (
     <AuthContext.Provider value={{ user, setUser, logout }}>

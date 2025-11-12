@@ -30,8 +30,8 @@ export default function Cabecalho({ toggleSidebar }: CabecalhoProps) {
         </Button>
 
         {/* Logo */}
-        <Navbar.Brand as={Link} to="/">
-          React
+        <Navbar.Brand as={Link} to="/painel/admin/">
+          Dashboard
         </Navbar.Brand>
 
         <Navbar.Toggle
@@ -41,13 +41,13 @@ export default function Cabecalho({ toggleSidebar }: CabecalhoProps) {
 
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link as={Link} to="/">
+            <Nav.Link as={Link} to="/painel/admin/painel">
               Painel
             </Nav.Link>
-            <Nav.Link as={Link} to="/">
+            <Nav.Link as={Link} to="/painel/admin/usuarios">
               Usuários
             </Nav.Link>
-            <Nav.Link as={Link} to="/">
+            <Nav.Link as={Link} to="/painel/admin/sobre">
               Sobre
             </Nav.Link>
 

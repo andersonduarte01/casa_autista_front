@@ -1,16 +1,17 @@
+import { Routes, Route, Navigate } from "react-router-dom";
+import Painel from "./paginas/Painel";
+import Sobre from "./Sobre";
+import Usuarios from "./Usuarios";
+import AdicionarFuncionario from "./paginas/AdicionarFuncionario";
 
-import { Routes, Route } from "react-router-dom";
-import Home from "../paginas/Home";
-import Sobre from "../paginas/Sobre";
-import Usuarios from "../paginas/Usuarios";
-
-export default function AppRoutes() {
+export default function AdminRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/home" element={<Home />} />
-      <Route path="/sobre" element={<Sobre />} />
-      <Route path="/usuarios" element={<Usuarios/>}/>
+      <Route path="/" element={<Painel />} />
+      <Route path="painel" element={<Painel />} />
+      <Route path="usuarios" element={<Usuarios />} />
+      <Route path="sobre" element={<Sobre />} />
+      <Route path="usuarios/adicionar" element={<AdicionarFuncionario />} /> 
     </Routes>
   );
 }

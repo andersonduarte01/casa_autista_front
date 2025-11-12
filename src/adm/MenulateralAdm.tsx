@@ -1,11 +1,27 @@
+import { useState } from "react";
 import { Nav } from "react-bootstrap";
-import { FaTachometerAlt, FaUsers, FaFileAlt, FaCog, FaSignOutAlt } from "react-icons/fa";
+import {
+  FaTachometerAlt,
+  FaUsers,
+  FaFileAlt,
+  FaCog,
+  FaSignOutAlt,
+  FaPlus,
+  FaList,
+  FaAngleDown,
+  FaAngleRight,
+} from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { useAuth } from "../autenticacao/AuthContext";
 
 interface MenulateralProps {
   collapsed: boolean;
 }
 
 export default function Menulateral({ collapsed }: MenulateralProps) {
+  const { logout } = useAuth();
+  const [openUsuarios, setOpenUsuarios] = useState(false);
+
   return (
     <div
       className="d-flex flex-column bg-primary text-light"
@@ -15,33 +31,78 @@ export default function Menulateral({ collapsed }: MenulateralProps) {
         minHeight: "calc(100vh - 56px)",
       }}
     >
-      <h4 className="text-center mt-3 mb-4"></h4>
-
-
-      {/* Links do menu */}
       <Nav className="flex-column flex-grow-1">
-        <Nav.Link href="#" className="text-light mb-2 d-flex align-items-center">
+        {/* DASHBOARD */}
+        <Nav.Link
+          as={Link}
+          to="/painel/admin/painel"
+          className="text-light mb-2 d-flex align-items-center"
+        >
           <FaTachometerAlt size={20} className="me-2" />
           {!collapsed && "Dashboard"}
         </Nav.Link>
-        <Nav.Link href="#" className="text-light mb-2 d-flex align-items-center">
-          <FaUsers size={20} className="me-2" />
-          {!collapsed && "Usuários"}
-        </Nav.Link>
-        <Nav.Link href="#" className="text-light mb-2 d-flex align-items-center">
+
+        {/* USUÁRIOS */}
+        <div>
+          <Nav.Link
+            onClick={() => setOpenUsuarios(!openUsuarios)}
+            className="text-light mb-2 d-flex align-items-center justify-content-between"
+          >
+            <div className="d-flex align-items-center">
+              <FaUsers size={20} className="me-2" />
+              {!collapsed && "Usuários"}
+            </div>
+            {!collapsed && (openUsuarios ? <FaAngleDown /> : <FaAngleRight />)}
+          </Nav.Link>
+
+          {/* Submenu */}
+          {!collapsed && openUsuarios && (
+            <div className="ms-4">
+              <Nav.Link
+                as={Link}
+                to="/painel/admin/usuarios"
+                className="text-light mb-1 d-flex align-items-center"
+              >
+                <FaList size={16} className="me-2" /> Funcionários
+              </Nav.Link>
+              <Nav.Link
+                as={Link}
+                to="/painel/admin/usuarios/adicionar"
+                className="text-light mb-1 d-flex align-items-center"
+              >
+                <FaPlus size={16} className="me-2" /> Adicionar
+              </Nav.Link>
+            </div>
+          )}
+        </div>
+
+        {/* RELATÓRIOS */}
+        <Nav.Link
+          href="#"
+          className="text-light mb-2 d-flex align-items-center"
+        >
           <FaFileAlt size={20} className="me-2" />
           {!collapsed && "Relatórios"}
         </Nav.Link>
-        <Nav.Link href="#" className="text-light mb-2 d-flex align-items-center">
+
+        {/* CONFIGURAÇÕES */}
+        <Nav.Link
+          href="#"
+          className="text-light mb-2 d-flex align-items-center"
+        >
           <FaCog size={20} className="me-2" />
           {!collapsed && "Configurações"}
         </Nav.Link>
       </Nav>
 
-      {/* Rodapé do menu */}
+      {/* SAIR */}
       <div className="mt-auto p-3">
         <hr className="border-light" />
-        <Nav.Link href="#" className="text-light d-flex align-items-center">
+        <Nav.Link
+          href="#"
+          onClick={logout}
+          className="text-light d-flex align-items-center"
+        >
           <FaSignOutAlt size={20} className="me-2" />
           {!collapsed && "Sair"}
         </Nav.Link>

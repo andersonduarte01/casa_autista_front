@@ -1,10 +1,9 @@
-// src/api/auth.ts
-import axios from "axios";
+import api from "./axios"; // 👉 importa a instância configurada
 
-const API_URL = "http://192.168.3.128:8000/autenticacao/api/login/";
+const LOGIN_URL = "autenticacao/api/login/";
 
 export async function login(email: string, password: string) {
-  const response = await axios.post(API_URL, { email, password });
+  const response = await api.post(LOGIN_URL, { email, password });
   const { access, refresh, user } = response.data;
 
   // salva tokens e dados do usuário no localStorage
