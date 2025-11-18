@@ -1,12 +1,19 @@
-import api from "./axios"; // 👉 importa a instância configurada
+// auth.ts
+import api from "./axios";
 
 const LOGIN_URL = "autenticacao/api/login/";
 
 export async function login(email: string, password: string) {
+  // limpa tokens antigos
+  localStorage.removeItem("access");
+  localStorage.removeItem("refresh");
+  localStorage.removeItem("user");
+
   const response = await api.post(LOGIN_URL, { email, password });
+
   const { access, refresh, user } = response.data;
 
-  // salva tokens e dados do usuário no localStorage
+  // salva tokens e usuário
   localStorage.setItem("access", access);
   localStorage.setItem("refresh", refresh);
   localStorage.setItem("user", JSON.stringify(user));
@@ -21,8 +28,8 @@ export function logout() {
 }
 
 export function getUser() {
-  const userData = localStorage.getItem("user");
-  return userData ? JSON.parse(userData) : null;
+  const data = localStorage.getItem("user");
+  return data ? JSON.parse(data) : null;
 }
 
 export function isAuthenticated() {

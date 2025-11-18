@@ -1,4 +1,3 @@
-// src/paginas/Login.tsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "./auth";
@@ -13,12 +12,19 @@ export default function Login() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     try {
       const user = await login(email, password);
       setUser(user);
-      navigate(user.painel_url); // redireciona para o painel correto
+      navigate(user.painel_url);
     } catch (err: any) {
-      setError("Email ou senha inválidos");
+      const mensagem =
+        err.response?.data?.detail ||
+        err.response?.data?.error ||
+        err.response?.data?.message ||
+        "Erro ao fazer login";
+
+      setError(mensagem);
     }
   };
 
@@ -30,7 +36,8 @@ export default function Login() {
         style={{ width: "300px" }}
       >
         <h4 className="mb-3 text-center">Login</h4>
-        {error && <p className="text-danger">{error}</p>}
+
+        {error && <p className="text-danger text-center">{error}</p>}
 
         <div className="mb-3">
           <label>Email</label>
@@ -38,7 +45,10 @@ export default function Login() {
             type="email"
             className="form-control"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setError("");
+            }}
           />
         </div>
 
@@ -48,7 +58,10 @@ export default function Login() {
             type="password"
             className="form-control"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setError("");
+            }}
           />
         </div>
 

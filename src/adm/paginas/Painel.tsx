@@ -1,6 +1,3 @@
-import MainLayout from "../MainLayoutAdm";
-import React from "react";
-
 export default function AdminPainel() {
   return (
       <div className="p-4">

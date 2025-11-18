@@ -3,7 +3,7 @@ import axios from "axios";
 import { Form, Button, Spinner, Card, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-export default function AdicionarFuncionario() {
+export default function AdicionarProfissional() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -13,7 +13,6 @@ export default function AdicionarFuncionario() {
     cpf: "",
     data_nascimento: "",
     telefone: "",
-    funcao: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -34,9 +33,8 @@ export default function AdicionarFuncionario() {
 
     try {
       const token = localStorage.getItem("access");
-
       const response = await axios.post(
-        "http://192.168.0.16:8000/administrador/funcionario/api/",
+        "http://192.168.0.16:8000/administrador/profissional/api/",
         formData,
         {
           headers: {
@@ -48,7 +46,7 @@ export default function AdicionarFuncionario() {
 
       // mensagem que vai aparecer no modal
       setSuccessMessage(
-        'Funcionário adicionado com sucesso!'
+        'Profissional adicionado com sucesso!'
       );
 
       // exibe modal
@@ -62,10 +60,9 @@ export default function AdicionarFuncionario() {
         cpf: "",
         data_nascimento: "",
         telefone: "",
-        funcao: "",
       });
     } catch (err: any) {
-      setError("Erro ao adicionar funcionário. Verifique os dados e tente novamente.");
+      setError("Erro ao adicionar profissional. Verifique os dados e tente novamente.");
     } finally {
       setLoading(false);
     }
@@ -73,7 +70,7 @@ export default function AdicionarFuncionario() {
 
   const handleCloseModal = () => {
     setShowModal(false);
-    navigate("/painel/admin/funcionarios"); // redireciona após clicar em OK
+    navigate("/painel/admin/profissionais"); // redireciona após clicar em OK
   };
 
   return (
@@ -81,7 +78,7 @@ export default function AdicionarFuncionario() {
       <Card className="shadow-lg border-0">
         <Card.Body className="p-4">
           <h4 className="text-primary mt-1 text-center text-uppercase">
-            Preencha os dados abaixo para cadastrar um novo funcionário.
+            Preencha os dados abaixo para cadastrar um novo profissional.
           </h4>
           <hr className="mt-4 py-2 text-primary" />
 
@@ -150,16 +147,6 @@ export default function AdicionarFuncionario() {
                   type="text"
                   name="telefone"
                   value={formData.telefone}
-                  onChange={handleChange}
-                />
-              </div>
-
-              <div className="col-md-6 mb-3">
-                <Form.Label>Função</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="funcao"
-                  value={formData.funcao}
                   onChange={handleChange}
                 />
               </div>

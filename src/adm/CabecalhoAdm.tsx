@@ -44,7 +44,7 @@ export default function Cabecalho({ toggleSidebar }: CabecalhoProps) {
             <Nav.Link as={Link} to="/painel/admin/painel">
               Painel
             </Nav.Link>
-            <Nav.Link as={Link} to="/painel/admin/usuarios">
+            <Nav.Link as={Link} to="/painel/admin/funcionarios">
               Usuários
             </Nav.Link>
             <Nav.Link as={Link} to="/painel/admin/sobre">

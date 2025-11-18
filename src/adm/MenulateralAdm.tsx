@@ -21,6 +21,7 @@ interface MenulateralProps {
 export default function Menulateral({ collapsed }: MenulateralProps) {
   const { logout } = useAuth();
   const [openUsuarios, setOpenUsuarios] = useState(false);
+  const [openProfissionais, setProfissionais] = useState(false);
 
   return (
     <div
@@ -42,7 +43,7 @@ export default function Menulateral({ collapsed }: MenulateralProps) {
           {!collapsed && "Dashboard"}
         </Nav.Link>
 
-        {/* USUÁRIOS */}
+        {/* FUNCIONÁRIOS */}
         <div>
           <Nav.Link
             onClick={() => setOpenUsuarios(!openUsuarios)}
@@ -50,7 +51,7 @@ export default function Menulateral({ collapsed }: MenulateralProps) {
           >
             <div className="d-flex align-items-center">
               <FaUsers size={20} className="me-2" />
-              {!collapsed && "Usuários"}
+              {!collapsed && "Funcionários"}
             </div>
             {!collapsed && (openUsuarios ? <FaAngleDown /> : <FaAngleRight />)}
           </Nav.Link>
@@ -60,14 +61,48 @@ export default function Menulateral({ collapsed }: MenulateralProps) {
             <div className="ms-4">
               <Nav.Link
                 as={Link}
-                to="/painel/admin/usuarios"
+                to="/painel/admin/funcionarios"
                 className="text-light mb-1 d-flex align-items-center"
               >
                 <FaList size={16} className="me-2" /> Funcionários
               </Nav.Link>
               <Nav.Link
                 as={Link}
-                to="/painel/admin/usuarios/adicionar"
+                to="/painel/admin/funcionario/adicionar"
+                className="text-light mb-1 d-flex align-items-center"
+              >
+                <FaPlus size={16} className="me-2" /> Adicionar
+              </Nav.Link>
+            </div>
+          )}
+        </div>
+
+        {/* PROFISSIONAIS */}
+        <div>
+          <Nav.Link
+            onClick={() => setProfissionais(!openProfissionais)}
+            className="text-light mb-2 d-flex align-items-center justify-content-between"
+          >
+            <div className="d-flex align-items-center">
+              <FaUsers size={20} className="me-2" />
+              {!collapsed && "Profissionais"}
+            </div>
+            {!collapsed && (openProfissionais ? <FaAngleDown /> : <FaAngleRight />)}
+          </Nav.Link>
+
+          {/* Submenu */}
+          {!collapsed && openProfissionais && (
+            <div className="ms-4">
+              <Nav.Link
+                as={Link}
+                to="/painel/admin/profissionais"
+                className="text-light mb-1 d-flex align-items-center"
+              >
+                <FaList size={16} className="me-2" /> Profissionais
+              </Nav.Link>
+              <Nav.Link
+                as={Link}
+                to="/painel/admin/profissional/adicionar"
                 className="text-light mb-1 d-flex align-items-center"
               >
                 <FaPlus size={16} className="me-2" /> Adicionar
