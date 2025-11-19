@@ -1,11 +1,8 @@
 import React, { useState } from "react";
-import api from "../../autenticacao/axios";
-import { Form, Button, Spinner, Card, Modal } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import api from "../autenticacao/axios"; // 👈 novo import
+import { Form, Button, Alert, Spinner, Card } from "react-bootstrap";
 
-export default function AdicionarFuncionario() {
-  const navigate = useNavigate();
-
+export default function AdicionarResponsavel() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -13,13 +10,11 @@ export default function AdicionarFuncionario() {
     cpf: "",
     data_nascimento: "",
     telefone: "",
-    funcao: "",
   });
 
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
-  const [showModal, setShowModal] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -30,24 +25,13 @@ export default function AdicionarFuncionario() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setSuccess("");
     setError("");
 
     try {
-      const token = localStorage.getItem("access");
+      const response = await api.post("responsavel/api/", formData);
 
-    const response = await api.post(
-      "/administrador/funcionario/api/",
-      formData
-    );
-
-      setSuccessMessage(
-        'Funcionário adicionado com sucesso!'
-      );
-
-      // exibe modal
-      setShowModal(true);
-
-      // limpa formulário
+      setSuccess(`Responsavel ${response.data.nome_completo} adicionado com sucesso!`);
       setFormData({
         email: "",
         password: "",
@@ -55,32 +39,29 @@ export default function AdicionarFuncionario() {
         cpf: "",
         data_nascimento: "",
         telefone: "",
-        funcao: "",
       });
     } catch (err: any) {
-      setError("Erro ao adicionar funcionário. Verifique os dados e tente novamente.");
+      console.error("Erro ao adicionar responsável:", err);
+      setError(
+        err.response?.data?.detail ||
+        err.response?.data?.message ||
+        "Erro ao adicionar responsavel. Verifique os dados e tente novamente."
+      );
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-    navigate("/painel/admin/funcionarios"); // redireciona após clicar em OK
   };
 
   return (
     <div className="p-2">
       <Card className="shadow-lg border-0">
         <Card.Body className="p-4">
-          <h4 className="text-primary mt-1 text-center text-uppercase">
-            Preencha os dados abaixo para cadastrar um novo funcionário.
-          </h4>
-          <hr className="mt-4 py-2 text-primary" />
-
-          {error && (
-            <div className="alert alert-danger">{error}</div>
-          )}
+          <h5 className="text-primary mt-1 text-center">
+            Preencha os dados abaixo para cadastrar um novo responsável.
+          </h5>
+          <hr className="mt-4 py-2 text-primary" />  
+          {success && <Alert variant="success">{success}</Alert>}
+          {error && <Alert variant="danger">{error}</Alert>}
 
           <Form onSubmit={handleSubmit}>
             <div className="row">
@@ -146,78 +127,23 @@ export default function AdicionarFuncionario() {
                   onChange={handleChange}
                 />
               </div>
-
-              <div className="col-md-6 mb-3">
-                <Form.Label>Função</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="funcao"
-                  value={formData.funcao}
-                  onChange={handleChange}
-                />
-              </div>
             </div>
 
-            <hr />
-
-            <Button type="submit" variant="primary" disabled={loading}>
-              {loading ? (
-                <>
-                  <Spinner animation="border" size="sm" className="me-2" />
-                  Salvando...
-                </>
-              ) : (
-                "Salvar"
-              )}
-            </Button>
+            <div className="col-md-12 text-center mt-4">
+              <Button type="submit" variant="primary" disabled={loading}>
+                {loading ? (
+                  <>
+                    <Spinner animation="border" size="sm" className="me-2" />
+                    Salvando...
+                  </>
+                ) : (
+                  "Salvar"
+                )}
+              </Button>
+            </div>
           </Form>
         </Card.Body>
       </Card>
-
-        {/* MODAL DE SUCESSO MELHORADO */}
-        <Modal
-          show={showModal}
-          onHide={handleCloseModal}
-          centered
-          backdrop="static"
-          keyboard={false}
-        >
-          <Modal.Body className="text-center p-5">
-
-            {/* Ícone verde */}
-            <div
-              style={{
-                fontSize: "70px",
-                color: "#0d6efd",
-              }}
-            >
-              ✓
-            </div>
-
-            <h3 className="mt-3 text-primary" style={{ fontWeight: "bold" }}>
-              Cadastro Realizado!
-            </h3>
-
-            <p className="mt-3 mb-4" style={{ fontSize: "18px", color: "#333" }}>
-              {successMessage}
-            </p>
-
-            <Button
-              variant="primary"
-              size="lg"
-              className="px-5"
-              onClick={handleCloseModal}
-              style={{
-                borderRadius: "10px",
-                fontSize: "18px",
-                padding: "10px 30px",
-              }}
-            >
-              OK
-            </Button>
-          </Modal.Body>
-        </Modal>
-
     </div>
   );
 }

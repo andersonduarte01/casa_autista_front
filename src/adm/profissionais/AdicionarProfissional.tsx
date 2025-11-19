@@ -34,7 +34,7 @@ export default function AdicionarProfissional() {
     try {
       const token = localStorage.getItem("access");
       const response = await axios.post(
-        "http://192.168.0.16:8000/administrador/profissional/api/",
+        "http://192.168.3.128:8000/administrador/profissional/api/",
         formData,
         {
           headers: {

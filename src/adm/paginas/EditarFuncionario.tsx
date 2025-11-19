@@ -67,7 +67,7 @@ export default function EditarFuncionario() {
       await axios.put(`/administrador/funcionario/api/${id}/`, formData);
       navigate("/painel/admin/funcionarios");
     } catch (err: any) {
-      setError(err.response?.data?.detail || "Erro ao salvar informações.");
+      setError(err.response?.data?.detail || "");
       setShowModal(true);
     } finally {
       setSaving(false);
@@ -188,20 +188,64 @@ export default function EditarFuncionario() {
         show={showModal}
         onHide={() => setShowModal(false)}
         centered
+        backdrop="static"
+        keyboard={false}
+        dialogClassName="modal-erro"
       >
         <Modal.Header
           closeButton
-          style={{ color: "red" }}
+          className="border-0"
+          style={{
+            background: "#ff4d4f",
+            color: "white",
+            borderTopLeftRadius: "10px",
+            borderTopRightRadius: "10px",
+          }}
         >
-          <Modal.Title>Erro</Modal.Title>
+          <Modal.Title style={{ fontWeight: "bold" }}>Erro</Modal.Title>
         </Modal.Header>
-        <Modal.Body>{error}</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
+
+        <Modal.Body
+          className="text-center"
+          style={{
+            padding: "30px 20px",
+            background: "#fff5f5",
+            borderBottomLeftRadius: "10px",
+            borderBottomRightRadius: "10px",
+          }}
+        >
+          {/* Ícone grande */}
+          <div style={{ fontSize: "70px", color: "#ff4d4f" }}>⚠️</div>
+
+          <p
+            style={{
+              fontSize: "20px",
+              marginTop: "15px",
+              color: "#b30000",
+              fontWeight: "500",
+            }}
+          >
+            Erro ao salvar informações.<br />
+            <small className="fst-italic" style={{fontSize:"14px"}}>OBS: O campo senha sempre deve ser preenchido.</small>
+          </p>
+
+          <Button
+            variant="danger"
+            size="lg"
+            onClick={() => setShowModal(false)}
+            className="mt-3 px-5"
+            style={{
+              borderRadius: "8px",
+              fontWeight: "bold",
+              padding: "10px 28px",
+              boxShadow: "0 3px 8px rgba(255, 0, 0, 0.3)",
+            }}
+          >
             Fechar
           </Button>
-        </Modal.Footer>
+        </Modal.Body>
       </Modal>
+
     </Card>
   );
 }

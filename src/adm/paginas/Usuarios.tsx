@@ -63,7 +63,7 @@ function Usuarios() {
   return (
     <Container fluid className="py-2">
       <Card className="shadow-sm">
-        <h4 className="m-2 text-center text-primary">Lista de Funcionários</h4>
+        <h4 className="mt-4 text-center text-primary text-uppercase">Funcionários</h4>
         <hr style={{ width: "98%", alignSelf: "center" }} />
 
         <Card.Body>
@@ -78,15 +78,15 @@ function Usuarios() {
             </div>
           ) : (
             <div className="table-responsive">
-              <Table bordered hover striped size="sm" className="align-middle text-center">
-                <thead className="table-primary">
+              <Table bordered hover striped size="sm">
+                <thead className="table-light">
                   <tr>
-                    <th>ID</th>
-                    <th>Nome Completo</th>
-                    <th>Função</th>
-                    <th>CPF</th>
-                    <th>Telefone</th>
-                    <th>Ações</th>
+                    <th className="text-primary text-uppercase text-center">ID</th>
+                    <th className="text-primary text-uppercase" style={{paddingLeft: "10px"}}>Nome Completo</th>
+                    <th className="text-primary text-uppercase" style={{paddingLeft: "10px"}}>Função</th>
+                    <th className="text-primary text-uppercase" style={{paddingLeft: "10px"}}>CPF</th>
+                    <th className="text-primary text-uppercase" style={{paddingLeft: "10px"}}>Telefone</th>
+                    <th className="text-primary text-uppercase text-center">Ações</th>
                   </tr>
                 </thead>
 
@@ -94,11 +94,11 @@ function Usuarios() {
                   {funcionarios.length > 0 ? (
                     funcionarios.map((func) => (
                       <tr key={func.id}>
-                        <td>{func.id}</td>
-                        <td>{func.nome_completo}</td>
-                        <td>{func.funcao || "—"}</td>
-                        <td>{func.cpf || "—"}</td>
-                        <td>{func.telefone || "—"}</td>
+                        <td className="text-center">{func.id}</td>
+                        <td style={{paddingLeft: "10px"}}>{func.nome_completo}</td>
+                        <td style={{paddingLeft: "10px"}}>{func.funcao || "—"}</td>
+                        <td style={{paddingLeft: "10px"}}>{func.cpf || "—"}</td>
+                        <td style={{paddingLeft: "10px"}}>{func.telefone || "—"}</td>
                         <td>
                           <div className="d-flex justify-content-center gap-2">
 

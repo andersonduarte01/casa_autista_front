@@ -3,7 +3,7 @@ import axios from "axios";
 
 // cria uma instância do axios
 const api = axios.create({
-  baseURL: "http://192.168.0.16:8000",
+  baseURL: "http://192.168.3.128:8000",
 });
 
 // adiciona o token JWT em todas as requisições, EXCETO login
